@@ -339,6 +339,7 @@ img { max-width: 100%; height: auto; display: block; }
   grid-template-columns: 1fr;
   gap: 0;
   align-items: stretch;
+  min-width: 0;
 }
 
 .arch__stage {
@@ -347,6 +348,7 @@ img { max-width: 100%; height: auto; display: block; }
   border-top: 3px solid var(--rule);
   border-radius: var(--radius);
   padding: 0.7rem 0.8rem 0.75rem;
+  min-width: 0;
 }
 
 .arch__stage h3,
@@ -372,6 +374,9 @@ img { max-width: 100%; height: auto; display: block; }
   color: var(--ink-soft);
   padding-left: 0.7rem;
   position: relative;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 .arch__stage li::before {
   content: "";
@@ -478,6 +483,8 @@ img { max-width: 100%; height: auto; display: block; }
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
   margin-bottom: 1.25rem;
+  min-width: 0;
+  width: 100%;
 }
 .agent-card::before {
   content: "";
