@@ -458,12 +458,13 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* ============ Agent grid ============ */
+/* Multi-column (masonry-style) layout: each card's height is independent,
+   so expanding one card's diagram never leaves dead space under its
+   neighbors the way an equal-height grid row would. */
 
 .agent-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-  align-items: start; 
+  column-count: 1;
+  column-gap: 1.25rem;
 }
 .agent-card {
   background: var(--panel);
@@ -474,6 +475,9 @@ img { max-width: 100%; height: auto; display: block; }
   flex-direction: column;
   position: relative;
   overflow: hidden;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin-bottom: 1.25rem;
 }
 .agent-card::before {
   content: "";
@@ -530,16 +534,15 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (min-width: 700px) {
   .agent-grid {
-    grid-template-columns: repeat(2, 1fr);
-    align-items: start;
+    column-count: 2;
   }
 }
 @media (min-width: 1100px) {
   .agent-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    align-items: start; 
+    column-count: 3;
+    column-gap: 1.5rem;
   }
+  .agent-card { margin-bottom: 1.5rem; }
 }
 /* ============ Capabilities ============ */
 
