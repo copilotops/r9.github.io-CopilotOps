@@ -394,9 +394,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .stage--agent {
   background: var(--panel);
-  border-color: rgba(124, 58, 237, 0.35);
-  border-top: 3px solid var(--violet);
-  box-shadow: 0 6px 18px -12px rgba(124, 58, 237, 0.55);
+  border-top-color: var(--violet);
 }
 .stage--agent h3, .stage--agent h4 { color: var(--violet); }
 
