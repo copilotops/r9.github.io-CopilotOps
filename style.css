@@ -829,11 +829,20 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* Desktop Layout for Architecture Diagrams */
 @media (min-width: 640px) {
-  /* Hero Diagram + Agent Card Diagrams */
-  .arch--hero .arch__row, 
-  .agent-card .arch__row { 
-    grid-template-columns: 1fr 26px 1.25fr 26px 1fr; 
+  /* Hero Diagram */
+  .arch--hero .arch__row {
+    grid-template-columns: 1fr 26px 1.25fr 26px 1fr;
   }
+
+  /* Agent Card Diagrams — full width, evenly balanced stages */
+  .agent-card .arch__row {
+    display: grid;
+    grid-template-columns: 1fr 20px 1.1fr 20px 1fr;
+    align-items: stretch;
+    width: 100%;
+    gap: 0;
+  }
+
   .arch--hero .arch__conn, 
   .agent-card .arch__conn { 
     min-height: 0; 
