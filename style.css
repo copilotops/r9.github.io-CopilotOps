@@ -133,19 +133,25 @@ img { max-width: 100%; height: auto; display: block; }
 
 .header-inner {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0.85rem 1.25rem 0.75rem;
-  gap: 0.65rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1.25rem;
+  gap: 0.75rem 1.5rem;
   width: 100%;
 }
 
-.header-top {
+.header-right {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
-  width: 100%;
-  gap: 1rem;
+  gap: 1.25rem;
+}
+
+@media (min-width: 900px) {
+  .header-inner { flex-wrap: nowrap; }
+  .header-right { flex-wrap: nowrap; }
 }
 
 .brand-link {
@@ -160,17 +166,9 @@ img { max-width: 100%; height: auto; display: block; }
   line-height: 1;
 }
 .brand-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: var(--gradient);
-  color: #fff;
-  font-size: 1.4rem;
-  font-weight: 700;
-  box-shadow: 0 2px 4px rgba(10, 22, 51, 0.15);
+  display: block;
+  height: 38px;
+  width: auto;
   flex-shrink: 0;
 }
 .brand-text span {
@@ -199,7 +197,6 @@ img { max-width: 100%; height: auto; display: block; }
 
 .primary-nav {
   display: block;
-  width: 100%;
 }
 
 .primary-nav ul {
@@ -347,7 +344,7 @@ img { max-width: 100%; height: auto; display: block; }
   border: 1px solid var(--rule);
   border-top: 3px solid var(--rule);
   border-radius: var(--radius);
-  padding: 0.7rem 0.8rem 0.75rem;
+  padding: 0.45rem 0.55rem 0.5rem;
   min-width: 0;
 }
 
@@ -369,14 +366,15 @@ img { max-width: 100%; height: auto; display: block; }
   gap: 0.28rem;
 }
 .arch__stage li {
-  font-size: var(--step--1);
-  line-height: 1.35;
+  font-size: 0.72rem;
+  line-height: 1.4;
   color: var(--ink-soft);
   padding-left: 0.7rem;
   position: relative;
+  white-space: normal;
   overflow-wrap: break-word;
-  word-break: break-word;
-  hyphens: auto;
+  word-break: normal;
+  hyphens: none;
 }
 .arch__stage li::before {
   content: "";
@@ -871,5 +869,35 @@ img { max-width: 100%; height: auto; display: block; }
     border-top: 4px solid transparent;
     border-bottom: 4px solid transparent;
     border-left: 6px solid var(--navy-soft);
+  }
+}
+
+/* At the 3-per-row desktop breakpoint, each card is too narrow for a
+   horizontal 3-stage diagram to hold longer words (e.g. "verification",
+   "orchestration") without breaking mid-word. Stack the stages vertically
+   there instead — the hero diagram is unaffected since it isn't part of
+   the agent grid. */
+@media (min-width: 1100px) {
+  .agent-card .arch__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 0;
+  }
+  .agent-card .arch__conn {
+    min-height: 24px;
+  }
+  .agent-card .arch__conn span {
+    width: 2px;
+    height: 100%;
+    min-height: 24px;
+  }
+  .agent-card .arch__conn span::after {
+    bottom: 0; top: auto; left: 50%; right: auto;
+    transform: translateX(-50%);
+    border: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid var(--navy-soft);
   }
 }
