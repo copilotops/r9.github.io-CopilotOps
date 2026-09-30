@@ -42,6 +42,72 @@
     });
   });
 
+  // Operating Model Modal
+  // Populated entirely from data already present in the clicked card's own
+  // DOM (title, input bullets, rail caption, agent/action steps, body copy)
+  // rather than any separately authored content.
+  const modelModal = document.getElementById('modelModal');
+  if (modelModal) {
+    const modalTag = document.getElementById('modelModalTag');
+    const modalTitle = document.getElementById('modelModalTitle');
+    const modalContext = document.getElementById('modelModalContext');
+    const modalInput = document.getElementById('modelModalInput');
+    const modalSignal = document.getElementById('modelModalSignal');
+    const modalSteps = document.getElementById('modelModalSteps');
+    const modalOutcome = document.getElementById('modelModalOutcome');
+    let lastFocused = null;
+
+    function openModal(card) {
+      const tag = card.querySelector('.agent-card__tag');
+      const title = card.querySelector('h3');
+      const meta = card.querySelector('.agent-card__meta');
+      const body = card.querySelector('.agent-card__body');
+      const rail = card.querySelector('.arch__rail');
+      const inputItems = card.querySelectorAll('.stage--source li');
+      const moveItems = card.querySelectorAll('.stage--agent li, .stage--action li');
+
+      modalTag.textContent = tag ? tag.textContent : '';
+      modalTitle.textContent = title ? title.textContent : '';
+      modalContext.textContent = meta ? meta.textContent : '';
+      modalInput.textContent = Array.from(inputItems).map(li => li.textContent).join(', ');
+      modalSignal.textContent = rail ? rail.textContent : '';
+      modalOutcome.textContent = body ? body.textContent : '';
+
+      modalSteps.innerHTML = '';
+      moveItems.forEach(li => {
+        const stepEl = document.createElement('li');
+        stepEl.textContent = li.textContent;
+        modalSteps.appendChild(stepEl);
+      });
+
+      lastFocused = document.activeElement;
+      modelModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      modelModal.querySelector('.model-modal__close').focus();
+    }
+
+    function closeModal() {
+      modelModal.hidden = true;
+      document.body.style.overflow = '';
+      if (lastFocused) lastFocused.focus();
+    }
+
+    document.querySelectorAll('.arch-view-model').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('.agent-card');
+        if (card) openModal(card);
+      });
+    });
+
+    modelModal.querySelectorAll('[data-close-modal]').forEach(el => {
+      el.addEventListener('click', closeModal);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modelModal.hidden) closeModal();
+    });
+  }
+
   // Agent Category Filters
   const filterButtons = document.querySelectorAll('.agent-filter');
   const agentCards = document.querySelectorAll('.agent-card');
