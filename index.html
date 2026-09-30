@@ -132,7 +132,10 @@
           </header>
           <p class="agent-card__body">Processes inbound tickets, extracts customer context, and triggers governed resolutions or advisor handoffs.</p>
           <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Refund cap · Tone policy · Transcript logged</p>
-          <button class="arch-toggle" type="button">Show architecture</button>
+          <div class="agent-card__actions">
+            <button class="arch-toggle" type="button">Show architecture</button>
+            <button class="arch-view-model" type="button">View operating model <span aria-hidden="true">&#8250;</span></button>
+          </div>
           <figure class="arch">
             <div class="arch__row">
               <div class="arch__stage stage--source">
@@ -163,7 +166,10 @@
           </header>
           <p class="agent-card__body">Monitors pull requests, validates code against organizational guardrails, and suggests fixes. Approvals remain strictly human-gated.</p>
           <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Branch protection · Zero auto-merging · Evaluation suite</p>
-          <button class="arch-toggle" type="button">Show architecture</button>
+          <div class="agent-card__actions">
+            <button class="arch-toggle" type="button">Show architecture</button>
+            <button class="arch-view-model" type="button">View operating model <span aria-hidden="true">&#8250;</span></button>
+          </div>
           <figure class="arch">
             <div class="arch__row">
               <div class="arch__stage stage--source">
@@ -194,7 +200,10 @@
           </header>
           <p class="agent-card__body">Answers policy inquiries in Teams grounded on current internal policies and logs verified approval flows.</p>
           <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Whitelisted knowledge · Confidential data controls</p>
-          <button class="arch-toggle" type="button">Show architecture</button>
+          <div class="agent-card__actions">
+            <button class="arch-toggle" type="button">Show architecture</button>
+            <button class="arch-view-model" type="button">View operating model <span aria-hidden="true">&#8250;</span></button>
+          </div>
           <figure class="arch">
             <div class="arch__row">
               <div class="arch__stage stage--source">
@@ -225,7 +234,10 @@
           </header>
           <p class="agent-card__body">Handles customer inquiries via web chat and email, routing to expert sub-agents and grounding answers in Microsoft.com knowledge sources.</p>
           <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Scoped Access · Knowledge Grounding · Human Handoff</p>
-          <button class="arch-toggle" type="button">Show architecture</button>
+          <div class="agent-card__actions">
+            <button class="arch-toggle" type="button">Show architecture</button>
+            <button class="arch-view-model" type="button">View operating model <span aria-hidden="true">&#8250;</span></button>
+          </div>
           <figure class="arch">
             <div class="arch__row">
               <div class="arch__stage stage--source">
@@ -256,7 +268,10 @@
           </header>
           <p class="agent-card__body">Automates data ingestion and processing workflows into the Data Lake, managing user roles and data pipelines for analytics.</p>
           <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Role-Based Access · Data Validation · Pipeline Logging</p>
-          <button class="arch-toggle" type="button">Show architecture</button>
+          <div class="agent-card__actions">
+            <button class="arch-toggle" type="button">Show architecture</button>
+            <button class="arch-view-model" type="button">View operating model <span aria-hidden="true">&#8250;</span></button>
+          </div>
           <figure class="arch">
             <div class="arch__row">
               <div class="arch__stage stage--source">
@@ -287,7 +302,10 @@
           </header>
           <p class="agent-card__body">Resolves Level 1 IT tickets, resets passwords, and deploys standard software packages based on user roles.</p>
           <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Role-based access · Standard images only · Ticket updated</p>
-          <button class="arch-toggle" type="button">Show architecture</button>
+          <div class="agent-card__actions">
+            <button class="arch-toggle" type="button">Show architecture</button>
+            <button class="arch-view-model" type="button">View operating model <span aria-hidden="true">&#8250;</span></button>
+          </div>
           <figure class="arch">
             <div class="arch__row">
               <div class="arch__stage stage--source">
@@ -580,6 +598,41 @@
     <button type="submit">Send</button>
   </form>
 </section>
+
+<!-- ================= OPERATING MODEL MODAL ================= -->
+<div class="model-modal" id="modelModal" hidden>
+  <div class="model-modal__backdrop" data-close-modal></div>
+  <div class="model-modal__panel" role="dialog" aria-modal="true" aria-labelledby="modelModalTitle">
+    <button class="model-modal__close" type="button" data-close-modal aria-label="Close">&times;</button>
+    <p class="model-modal__eyebrow"><span id="modelModalTag"></span> Operating Model</p>
+    <h3 id="modelModalTitle"></h3>
+    <p class="model-modal__context"><span aria-hidden="true">&#9678;</span> <span id="modelModalContext"></span></p>
+
+    <div class="model-modal__grid">
+      <div class="model-modal__box">
+        <p class="model-modal__label">Approved Input Surface</p>
+        <p id="modelModalInput"></p>
+      </div>
+      <div class="model-modal__box">
+        <p class="model-modal__label">Success Signal</p>
+        <p id="modelModalSignal"></p>
+      </div>
+    </div>
+
+    <p class="model-modal__label model-modal__label--steps">How the work moves</p>
+    <ol class="model-modal__steps" id="modelModalSteps"></ol>
+
+    <div class="model-modal__outcome">
+      <span aria-hidden="true">&#10003;</span>
+      <div>
+        <p class="model-modal__outcome-title">Expected outcome</p>
+        <p id="modelModalOutcome"></p>
+      </div>
+    </div>
+
+    <a class="btn btn--solid model-modal__cta" href="#contact" data-close-modal>Talk to us about one workflow <span aria-hidden="true">&#8599;</span></a>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>
