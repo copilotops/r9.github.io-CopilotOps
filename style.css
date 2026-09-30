@@ -526,6 +526,29 @@ a.btn.btn--contact:hover { background: var(--blue); color: #fff; }
    matches the row's height, so expanding one card's diagram never
    leaves a dead gap next to its shorter row-mates. */
 
+.agent-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.75rem;
+}
+.agent-filter {
+  background: none;
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  font-size: var(--step--2);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.agent-filter:hover { border-color: var(--blue); color: var(--blue); }
+.agent-filter.is-active { background: var(--navy); border-color: var(--navy); color: #fff; }
+:root[data-theme="dark"] .agent-filter.is-active { background: var(--blue); border-color: var(--blue); }
+
+.agent-card.is-filtered-out { display: none; }
+
 .agent-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -559,26 +582,61 @@ a.btn.btn--contact:hover { background: var(--blue); color: #fff; }
 .agent-card__meta { font-size: var(--step--1); color: var(--blue); margin-bottom: 0.9rem; }
 .agent-card__body { color: var(--ink-soft); font-size: var(--step--1); margin-bottom: 0; }
 
+.agent-card__tag {
+  display: inline-block;
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin: 0 0 0.9rem;
+}
+.agent-card:nth-child(2) .agent-card__tag,
+.agent-card:nth-child(5) .agent-card__tag { color: var(--violet); }
+.agent-card:nth-child(3) .agent-card__tag,
+.agent-card:nth-child(6) .agent-card__tag { color: var(--cyan); }
+
+.agent-card::before { background: var(--blue); }
+.agent-card:nth-child(2)::before,
+.agent-card:nth-child(5)::before { background: var(--violet); }
+.agent-card:nth-child(3)::before,
+.agent-card:nth-child(6)::before { background: var(--cyan); }
+
+.agent-card__metrics {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: var(--step--2);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  border-top: 1px solid var(--rule);
+  padding-top: 0.85rem;
+  margin: auto 0 0;
+}
+
 .agent-card .arch { display: none; margin-top: 1.25rem; }
 .agent-card.is-expanded .arch { display: block; }
 
 .arch-toggle {
-  margin-top: 1.25rem;
+  margin-top: 0.9rem;
   background: none;
-  border: 1px solid var(--rule);
+  border: 0;
   color: var(--blue);
-  padding: 0.6rem 0.8rem;
-  border-radius: 999px;
+  padding: 0;
   font: 600 var(--step--1)/1 "IBM Plex Sans", sans-serif;
+  letter-spacing: 0.03em;
   cursor: pointer;
-  text-align: center;
-  display: block;
-  width: 100%;
-  transition: all 0.2s ease;
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: gap 0.15s ease;
   position: relative;
   z-index: 2;
 }
-.arch-toggle:hover { background: var(--panel-alt); border-color: var(--blue); }
+.arch-toggle::after { content: "\203A"; font-size: 1.1em; }
+.arch-toggle:hover { gap: 0.6rem; color: var(--navy); }
+:root[data-theme="dark"] .arch-toggle:hover { color: #fff; }
 
 .agent-card__stats {
   display: flex;
