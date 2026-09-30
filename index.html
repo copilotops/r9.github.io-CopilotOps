@@ -35,6 +35,7 @@
             </details>
           </li>
           <li><a href="#capabilities">Capabilities</a></li>
+          <li><a href="#business-case">Business Case Builder</a></li>
           <li><a href="#delivery">How we deliver</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
@@ -348,6 +349,167 @@
           <p>Deploy evaluation suites, operations runbooks, and telemetry dashboards.</p>
         </li>
       </ol>
+    </div>
+  </section>
+
+  <!-- ================= BUSINESS CASE BUILDER ================= -->
+  <section class="section" id="business-case">
+    <div class="shell">
+      <header class="section-head">
+        <h2>AI Readiness &amp; Business Case Builder</h2>
+        <p>Model the impact, compare service tiers, check your governance readiness, and generate an executive-ready summary.</p>
+      </header>
+
+      <div class="bcb">
+        <div class="bcb-tabs" role="tablist" aria-label="Business case tools">
+          <button class="bcb-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="bcb-calculator" data-tab="calculator">ROI Calculator</button>
+          <button class="bcb-tab" type="button" role="tab" aria-selected="false" aria-controls="bcb-comparison" data-tab="comparison">Comparison Matrix</button>
+          <button class="bcb-tab" type="button" role="tab" aria-selected="false" aria-controls="bcb-readiness" data-tab="readiness">Readiness Checklist</button>
+          <button class="bcb-tab" type="button" role="tab" aria-selected="false" aria-controls="bcb-summary" data-tab="summary">Executive Summary</button>
+        </div>
+
+        <!-- ROI Calculator -->
+        <div class="bcb-panel is-active" id="bcb-calculator" role="tabpanel">
+          <div class="bcb-calc">
+            <div class="bcb-calc__inputs">
+              <div class="bcb-field">
+                <label for="bcbTeamSize">Team size <span class="bcb-field__value" id="bcbTeamSizeValue">50</span></label>
+                <input type="range" id="bcbTeamSize" min="1" max="500" value="50" step="1">
+              </div>
+              <div class="bcb-field">
+                <label for="bcbHourlyRate">Average hourly rate <span class="bcb-field__value" id="bcbHourlyRateValue">$65/hr</span></label>
+                <input type="range" id="bcbHourlyRate" min="20" max="150" value="65" step="1">
+              </div>
+              <div class="bcb-field">
+                <label for="bcbHoursWeek">Hours on manual tasks per week <span class="bcb-field__value" id="bcbHoursWeekValue">10 hrs</span></label>
+                <input type="range" id="bcbHoursWeek" min="1" max="40" value="10" step="1">
+              </div>
+              <p class="bcb-assumption">Estimates assume 60% of flagged manual-task hours are reclaimed through governed automation, a $30/user/month platform fee, and a $15,000 one-time implementation cost. Adjust for your own environment before presenting externally.</p>
+            </div>
+
+            <div class="bcb-calc__outputs">
+              <div class="bcb-stat">
+                <dt>Annual hours saved</dt>
+                <dd id="bcbOutHours">0</dd>
+              </div>
+              <div class="bcb-stat">
+                <dt>Projected annual cost savings</dt>
+                <dd id="bcbOutSavings">$0</dd>
+              </div>
+              <div class="bcb-stat">
+                <dt>Estimated payback period</dt>
+                <dd id="bcbOutPayback">—</dd>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparison Matrix -->
+        <div class="bcb-panel" id="bcb-comparison" role="tabpanel" hidden>
+          <div class="bcb-table-wrap">
+            <table class="bcb-table">
+              <thead>
+                <tr>
+                  <th scope="col">Attribute</th>
+                  <th scope="col">Copilot Studio Standard</th>
+                  <th scope="col">Standard + GitHub Harness</th>
+                  <th scope="col">Enterprise Governance Suite</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Security &amp; compliance</th>
+                  <td>Baseline Microsoft 365 platform compliance</td>
+                  <td>+ CI/CD policy gates, automated prompt evaluation</td>
+                  <td>+ Purview DLP, sensitivity labels, full audit trail</td>
+                </tr>
+                <tr>
+                  <th scope="row">Integrations</th>
+                  <td>M365 apps, Teams</td>
+                  <td>+ GitHub Actions, source control</td>
+                  <td>+ Graph connectors, custom line-of-business systems</td>
+                </tr>
+                <tr>
+                  <th scope="row">LLM capabilities</th>
+                  <td>Grounded retrieval, single-turn agents</td>
+                  <td>+ Automated regression testing of prompts</td>
+                  <td>+ Multi-agent orchestration, custom retrieval tuning</td>
+                </tr>
+                <tr>
+                  <th scope="row">Cost per user</th>
+                  <td>$</td>
+                  <td>$$</td>
+                  <td>Contact sales</td>
+                </tr>
+                <tr class="bcb-table__select-row">
+                  <th scope="row"><span class="sr-only">Select tier</span></th>
+                  <td><button class="btn btn--ghost bcb-select" type="button" data-tier="Copilot Studio Standard">Select this tier</button></td>
+                  <td><button class="btn btn--ghost bcb-select" type="button" data-tier="Standard + GitHub Harness">Select this tier</button></td>
+                  <td><button class="btn btn--ghost bcb-select" type="button" data-tier="Enterprise Governance Suite">Select this tier</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="bcb-selected" id="bcbSelectedTier">No tier selected yet.</p>
+        </div>
+
+        <!-- Readiness Checklist -->
+        <div class="bcb-panel" id="bcb-readiness" role="tabpanel" hidden>
+          <div class="bcb-progress">
+            <div class="bcb-progress__bar"><span id="bcbProgressFill" style="width:0%"></span></div>
+            <p><strong id="bcbProgressLabel">0 of 6</strong> governance controls confirmed</p>
+          </div>
+          <ul class="bcb-checklist" id="bcbChecklist">
+            <li>
+              <label>
+                <input type="checkbox" data-item="privacy">
+                <span><strong>Data privacy</strong> — PII handling and data residency requirements are documented.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="rbac">
+                <span><strong>Role-based access control</strong> — Agent access is scoped to least-privilege roles.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="guardrails">
+                <span><strong>Model guardrails</strong> — Prompt-injection and content-safety filters are enabled.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="audit">
+                <span><strong>Audit logging</strong> — All agent actions are logged and retained per policy.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="review">
+                <span><strong>Human-in-the-loop review</strong> — High-risk actions require human approval.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="incident">
+                <span><strong>Incident response plan</strong> — A rollback and escalation path exists for agent failures.</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="bcb-panel" id="bcb-summary" role="tabpanel" hidden>
+          <p class="bcb-summary-lead">Generated from your calculator inputs, selected tier, and readiness checklist. Review and edit before sharing externally.</p>
+          <pre class="bcb-summary-output" id="bcbSummaryOutput"></pre>
+          <div class="bcb-summary-actions">
+            <button class="btn btn--solid" type="button" id="bcbCopyBtn">Copy to clipboard</button>
+            <button class="btn btn--ghost" type="button" id="bcbDownloadBtn">Download as Markdown</button>
+            <button class="btn btn--ghost" type="button" id="bcbPrintBtn">Print / Save as PDF</button>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
