@@ -112,14 +112,26 @@
         <p>Production patterns from live enterprise deployments across customer service, DevOps, and operations.</p>
       </header>
 
+      <div class="agent-filters" role="group" aria-label="Filter agents by category">
+        <button type="button" class="agent-filter is-active" data-filter="all">All</button>
+        <button type="button" class="agent-filter" data-filter="Telecom">Telecom</button>
+        <button type="button" class="agent-filter" data-filter="Platform Engineering">Platform Engineering</button>
+        <button type="button" class="agent-filter" data-filter="Shared Services">Shared Services</button>
+        <button type="button" class="agent-filter" data-filter="Customer Service">Customer Service</button>
+        <button type="button" class="agent-filter" data-filter="Data Platform">Data Platform</button>
+        <button type="button" class="agent-filter" data-filter="IT">IT</button>
+      </div>
+
       <div class="agent-grid">
         <!-- Agent 1 -->
-        <article class="agent-card">
+        <article class="agent-card" data-category="Telecom">
+          <p class="agent-card__tag">Telecom</p>
           <header class="agent-card__head">
             <h3>Customer Support Agent</h3>
             <p class="agent-card__meta">Telecom · 1.2M tickets a year</p>
           </header>
           <p class="agent-card__body">Processes inbound tickets, extracts customer context, and triggers governed resolutions or advisor handoffs.</p>
+          <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Refund cap · Tone policy · Transcript logged</p>
           <button class="arch-toggle" type="button">Show architecture</button>
           <figure class="arch">
             <div class="arch__row">
@@ -143,12 +155,14 @@
         </article>
 
         <!-- Agent 2 -->
-        <article class="agent-card">
+        <article class="agent-card" data-category="Platform Engineering">
+          <p class="agent-card__tag">Platform Engineering</p>
           <header class="agent-card__head">
             <h3>DevOps GitHub Harness</h3>
             <p class="agent-card__meta">Platform engineering · 340 repositories</p>
           </header>
           <p class="agent-card__body">Monitors pull requests, validates code against organizational guardrails, and suggests fixes. Approvals remain strictly human-gated.</p>
+          <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Branch protection · Zero auto-merging · Evaluation suite</p>
           <button class="arch-toggle" type="button">Show architecture</button>
           <figure class="arch">
             <div class="arch__row">
@@ -172,12 +186,14 @@
         </article>
 
         <!-- Agent 3 -->
-        <article class="agent-card">
+        <article class="agent-card" data-category="Shared Services">
+          <p class="agent-card__tag">Shared Services</p>
           <header class="agent-card__head">
             <h3>HR Copilot Studio Agent</h3>
             <p class="agent-card__meta">Shared services · 14,000 employees</p>
           </header>
           <p class="agent-card__body">Answers policy inquiries in Teams grounded on current internal policies and logs verified approval flows.</p>
+          <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Whitelisted knowledge · Confidential data controls</p>
           <button class="arch-toggle" type="button">Show architecture</button>
           <figure class="arch">
             <div class="arch__row">
@@ -201,12 +217,14 @@
         </article>
 
         <!-- Agent 4 -->
-        <article class="agent-card">
+        <article class="agent-card" data-category="Customer Service">
+          <p class="agent-card__tag">Customer Service</p>
           <header class="agent-card__head">
             <h3>Ask Microsoft Web Agent</h3>
             <p class="agent-card__meta">Copilot Studio · Customer Service</p>
           </header>
           <p class="agent-card__body">Handles customer inquiries via web chat and email, routing to expert sub-agents and grounding answers in Microsoft.com knowledge sources.</p>
+          <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Scoped Access · Knowledge Grounding · Human Handoff</p>
           <button class="arch-toggle" type="button">Show architecture</button>
           <figure class="arch">
             <div class="arch__row">
@@ -230,12 +248,14 @@
         </article>
 
         <!-- Agent 5 -->
-        <article class="agent-card">
+        <article class="agent-card" data-category="Data Platform">
+          <p class="agent-card__tag">Data Platform</p>
           <header class="agent-card__head">
             <h3>Microsoft Data Lake Agent</h3>
             <p class="agent-card__meta">Data Platform · Ingestion &amp; Processing</p>
           </header>
           <p class="agent-card__body">Automates data ingestion and processing workflows into the Data Lake, managing user roles and data pipelines for analytics.</p>
+          <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Role-Based Access · Data Validation · Pipeline Logging</p>
           <button class="arch-toggle" type="button">Show architecture</button>
           <figure class="arch">
             <div class="arch__row">
@@ -259,12 +279,14 @@
         </article>
 
         <!-- Agent 6 -->
-        <article class="agent-card">
+        <article class="agent-card" data-category="IT">
+          <p class="agent-card__tag">IT</p>
           <header class="agent-card__head">
             <h3>IT Service Desk Agent</h3>
             <p class="agent-card__meta">IT · 80K requests / year</p>
           </header>
           <p class="agent-card__body">Resolves Level 1 IT tickets, resets passwords, and deploys standard software packages based on user roles.</p>
+          <p class="agent-card__metrics"><span aria-hidden="true">&#9678;</span> Role-based access · Standard images only · Ticket updated</p>
           <button class="arch-toggle" type="button">Show architecture</button>
           <figure class="arch">
             <div class="arch__row">
