@@ -104,4 +104,211 @@
       });
     }
   }
+
+  // ============ Business Case Builder ============
+  const bcbRoot = document.getElementById('business-case');
+  if (bcbRoot) {
+    const STORAGE_KEY = 'copilotops-bcb';
+
+    // ---- Tabs ----
+    const tabs = bcbRoot.querySelectorAll('.bcb-tab');
+    const panels = bcbRoot.querySelectorAll('.bcb-panel');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+        panels.forEach(p => { p.classList.remove('is-active'); p.hidden = true; });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        const panel = document.getElementById('bcb-' + tab.dataset.tab);
+        if (panel) { panel.classList.add('is-active'); panel.hidden = false; }
+        if (tab.dataset.tab === 'summary') renderSummary();
+      });
+    });
+
+    // ---- Calculator ----
+    const teamSizeInput = document.getElementById('bcbTeamSize');
+    const hourlyRateInput = document.getElementById('bcbHourlyRate');
+    const hoursWeekInput = document.getElementById('bcbHoursWeek');
+    const teamSizeValue = document.getElementById('bcbTeamSizeValue');
+    const hourlyRateValue = document.getElementById('bcbHourlyRateValue');
+    const hoursWeekValue = document.getElementById('bcbHoursWeekValue');
+    const outHours = document.getElementById('bcbOutHours');
+    const outSavings = document.getElementById('bcbOutSavings');
+    const outPayback = document.getElementById('bcbOutPayback');
+
+    const AUTOMATION_RATE = 0.6;
+    const PLATFORM_FEE_PER_USER_MONTH = 30;
+    const IMPLEMENTATION_COST = 15000;
+
+    function formatCurrency(n) {
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+    function formatNumber(n) {
+      return Math.round(n).toLocaleString('en-US');
+    }
+
+    function calcResults() {
+      const teamSize = Number(teamSizeInput.value);
+      const hourlyRate = Number(hourlyRateInput.value);
+      const hoursWeek = Number(hoursWeekInput.value);
+
+      const annualHoursSaved = teamSize * hoursWeek * AUTOMATION_RATE * 52;
+      const annualCostSavings = annualHoursSaved * hourlyRate;
+      const annualPlatformFee = teamSize * PLATFORM_FEE_PER_USER_MONTH * 12;
+      const monthlyNetSavings = (annualCostSavings - annualPlatformFee) / 12;
+
+      let paybackLabel = 'Not reached within 24 months';
+      if (monthlyNetSavings > 0) {
+        const months = IMPLEMENTATION_COST / monthlyNetSavings;
+        if (months <= 24) {
+          paybackLabel = months < 1
+            ? 'Under 1 month'
+            : Math.round(months) + (Math.round(months) === 1 ? ' month' : ' months');
+        }
+      }
+
+      return { teamSize, hourlyRate, hoursWeek, annualHoursSaved, annualCostSavings, paybackLabel };
+    }
+
+    function updateCalculator() {
+      teamSizeValue.textContent = teamSizeInput.value;
+      hourlyRateValue.textContent = '$' + hourlyRateInput.value + '/hr';
+      hoursWeekValue.textContent = hoursWeekInput.value + ' hrs';
+
+      const r = calcResults();
+      outHours.textContent = formatNumber(r.annualHoursSaved);
+      outSavings.textContent = formatCurrency(r.annualCostSavings);
+      outPayback.textContent = r.paybackLabel;
+    }
+
+    if (teamSizeInput && hourlyRateInput && hoursWeekInput) {
+      [teamSizeInput, hourlyRateInput, hoursWeekInput].forEach(el => {
+        el.addEventListener('input', updateCalculator);
+      });
+      updateCalculator();
+    }
+
+    // ---- Comparison tier selection ----
+    let selectedTier = null;
+    const selectedTierLabel = document.getElementById('bcbSelectedTier');
+    bcbRoot.querySelectorAll('.bcb-select').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedTier = btn.dataset.tier;
+        if (selectedTierLabel) selectedTierLabel.textContent = 'Selected tier: ' + selectedTier;
+      });
+    });
+
+    // ---- Readiness checklist (persisted) ----
+    const checklistItems = bcbRoot.querySelectorAll('#bcbChecklist input[type="checkbox"]');
+    const progressFill = document.getElementById('bcbProgressFill');
+    const progressLabel = document.getElementById('bcbProgressLabel');
+
+    function loadChecklistState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+    function saveChecklistState(state) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        // ignore storage failures
+      }
+    }
+
+    function updateProgress() {
+      const total = checklistItems.length;
+      const checked = Array.from(checklistItems).filter(c => c.checked).length;
+      const pct = total ? Math.round((checked / total) * 100) : 0;
+      if (progressFill) progressFill.style.width = pct + '%';
+      if (progressLabel) progressLabel.textContent = checked + ' of ' + total;
+    }
+
+    const savedState = loadChecklistState();
+    checklistItems.forEach(cb => {
+      if (savedState[cb.dataset.item]) cb.checked = true;
+      cb.addEventListener('change', () => {
+        const state = loadChecklistState();
+        state[cb.dataset.item] = cb.checked;
+        saveChecklistState(state);
+        updateProgress();
+      });
+    });
+    updateProgress();
+
+    // ---- Executive summary generator ----
+    const summaryOutput = document.getElementById('bcbSummaryOutput');
+
+    function renderSummary() {
+      if (!summaryOutput) return;
+      const r = calcResults();
+      const checked = Array.from(checklistItems).filter(c => c.checked);
+      const unchecked = Array.from(checklistItems).filter(c => !c.checked);
+      const getLabel = (cb) => cb.closest('label').querySelector('span').textContent.trim();
+
+      let text = 'CopilotOps — AI Business Case Summary\n';
+      text += '========================================\n\n';
+      text += 'Team profile\n';
+      text += '  Team size: ' + r.teamSize + '\n';
+      text += '  Average hourly rate: $' + r.hourlyRate + '/hr\n';
+      text += '  Manual-task hours per week: ' + r.hoursWeek + '\n\n';
+      text += 'Projected impact\n';
+      text += '  Annual hours saved: ' + formatNumber(r.annualHoursSaved) + '\n';
+      text += '  Projected annual cost savings: ' + formatCurrency(r.annualCostSavings) + '\n';
+      text += '  Estimated payback period: ' + r.paybackLabel + '\n';
+      text += '  (Assumes 60% automation of flagged manual hours, $30/user/month platform fee, $15,000 implementation cost. Adjust for your own environment.)\n\n';
+      text += 'Recommended service tier\n';
+      text += '  ' + (selectedTier ? selectedTier : 'Not yet selected — see Comparison Matrix tab') + '\n\n';
+      text += 'Governance readiness (' + checked.length + ' of ' + checklistItems.length + ' confirmed)\n';
+      checked.forEach(cb => { text += '  [x] ' + getLabel(cb) + '\n'; });
+      unchecked.forEach(cb => { text += '  [ ] ' + getLabel(cb) + '\n'; });
+      text += '\nGenerated by the CopilotOps Business Case Builder. Review all figures before sharing externally.';
+
+      summaryOutput.textContent = text;
+    }
+
+    // ---- Summary actions ----
+    const copyBtn = document.getElementById('bcbCopyBtn');
+    const downloadBtn = document.getElementById('bcbDownloadBtn');
+    const printBtn = document.getElementById('bcbPrintBtn');
+
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        renderSummary();
+        const original = copyBtn.textContent;
+        try {
+          await navigator.clipboard.writeText(summaryOutput.textContent);
+          copyBtn.textContent = 'Copied!';
+        } catch (e) {
+          copyBtn.textContent = 'Copy failed — select text manually';
+        }
+        setTimeout(() => { copyBtn.textContent = original; }, 2000);
+      });
+    }
+
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', () => {
+        renderSummary();
+        const blob = new Blob([summaryOutput.textContent], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'copilotops-business-case.md';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        renderSummary();
+        window.print();
+      });
+    }
+  }
 })();
