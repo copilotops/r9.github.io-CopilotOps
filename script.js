@@ -42,6 +42,21 @@
     });
   });
 
+  // Agent Category Filters
+  const filterButtons = document.querySelectorAll('.agent-filter');
+  const agentCards = document.querySelectorAll('.agent-card');
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      const filter = btn.dataset.filter;
+      agentCards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('is-filtered-out', !match);
+      });
+    });
+  });
+
   // Chatbot
   const launcher = document.getElementById('chatLauncher');
   const panel = document.getElementById('chatPanel');
