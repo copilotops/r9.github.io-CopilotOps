@@ -1,0 +1,67 @@
+name: Check for new Copilot updates
+
+# Runs automatically every Monday, and can also be triggered manually from
+# the Actions tab. It only ever DETECTS new Microsoft Copilot announcements
+# and opens a review Issue — it never edits or publishes site content by
+# itself. Adding an item to the live site (data/updates.json) stays a
+# deliberate, human-reviewed commit.
+on:
+  schedule:
+    - cron: "0 9 * * 1"   # 09:00 UTC every Monday
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run update checker
+        run: python scripts/check_copilot_updates.py
+
+      - name: Read results
+        id: results
+        run: |
+          COUNT=$(python -c "import json; print(len(json.load(open('new-items-found.json'))))")
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: Create review issue for new items
+        if: steps.results.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BODY_FILE=$(mktemp)
+          echo "New Copilot-related posts were found on Microsoft's blog. Review each one, then add an entry to \`data/updates.json\` for any that belong on the site (the front page reads this file automatically — no other changes needed)." >> "$BODY_FILE"
+          echo "" >> "$BODY_FILE"
+          python - <<'PYEOF' >> "$BODY_FILE"
+          import json
+          items = json.load(open("new-items-found.json"))
+          for i in items:
+              print(f"### {i['title']}")
+              print(f"- Published: {i['pubDate']}")
+              print(f"- Link: {i['link']}")
+              print(f"- Excerpt: {i['description']}")
+              print("")
+          PYEOF
+          gh issue create \
+            --title "New Copilot updates to review ($(date +%Y-%m-%d))" \
+            --label "copilot-update" \
+            --body-file "$BODY_FILE"
+
+      - name: Commit updated seen-items log
+        run: |
+          git config user.name "copilotops-update-bot"
+          git config user.email "actions@github.com"
+          git add data/.seen-feed-items.json
+          git diff --cached --quiet || git commit -m "chore: record checked Copilot feed items [skip ci]"
+          git push

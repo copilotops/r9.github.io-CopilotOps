@@ -1,0 +1,16 @@
+[
+  {
+    "date": "2026-09-25",
+    "title": "Introducing the new Copilot: Home, Code and Autopilot",
+    "summary": "Microsoft reorganized Copilot around four surfaces \u2014 Home, Code, Autopilot and Today \u2014 with Office apps built in. Rolling out through the Frontier program in the coming weeks.",
+    "source": "https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/",
+    "tag": "Product"
+  },
+  {
+    "date": "2026-09-25",
+    "title": "Evolving the Copilot pricing model with FinOps for AI",
+    "summary": "Everyday AI stays on the flat per-user license. Cowork, Code, Autopilot and frontier models move to usage-based Copilot Credits, gated behind an admin-configured spending policy.",
+    "source": "https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/",
+    "tag": "Pricing"
+  }
+]

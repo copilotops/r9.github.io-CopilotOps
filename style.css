@@ -1638,6 +1638,48 @@ a.btn.btn--contact:hover { background: var(--blue); color: #fff; }
   .modes__panel { padding: 2.5rem; }
 }
 
+/* ============ Tracked Updates Feed ============ */
+
+.updates-feed { margin-top: 3rem; }
+.updates-feed__label {
+  font-size: var(--step--1);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #93A3CA;
+  margin: 0 0 1rem;
+}
+.updates-feed__list { list-style: none; margin: 0 0 0.75rem; padding: 0; display: grid; gap: 1px; background: rgba(255,255,255,0.1); border-radius: var(--radius); overflow: hidden; }
+.updates-feed__list li {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem 1.25rem;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: baseline;
+  gap: 0.6rem 0.9rem;
+}
+.updates-feed__empty { display: block; color: #93A3CA; font-size: var(--step--1); }
+.updates-feed__date { color: #93A3CA; font-size: var(--step--2); font-family: "Space Grotesk", sans-serif; }
+.updates-feed__tag {
+  font-size: var(--step--2);
+  font-weight: 700;
+  color: #4F7CFF;
+  background: rgba(79, 124, 255, 0.14);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+}
+.updates-feed__title { grid-column: 1 / -1; color: #fff; font-size: var(--step--1); }
+.updates-feed__summary { grid-column: 1 / -1; margin: 0; color: #B7C2E4; font-size: var(--step--2); }
+.updates-feed__link { color: #4F7CFF; font-size: var(--step--2); font-weight: 600; text-decoration: none; justify-self: start; grid-column: 1 / -1; }
+.updates-feed__link:hover { text-decoration: underline; }
+.updates-feed__note { color: #6c7a94; font-size: var(--step--2); margin: 0; }
+
+@media (min-width: 640px) {
+  .updates-feed__title { grid-column: auto; }
+  .updates-feed__summary { grid-column: 1 / -1; }
+  .updates-feed__link { grid-column: auto; justify-self: end; }
+}
+
 /* ============ Hero Orbital Visual ============ */
 /* Deliberately fixed-dark (independent of the light/dark toggle), same
    convention as the Capabilities/Flows/Modes sections elsewhere on this

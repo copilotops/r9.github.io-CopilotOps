@@ -214,6 +214,43 @@
     });
   }
 
+  // Tracked Updates feed — reads data/updates.json, which a human updates
+  // after reviewing the weekly GitHub Action's findings. No API keys, no
+  // build step: just a JSON file the page fetches at load time.
+  const updatesList = document.getElementById('updatesFeedList');
+  const updatesCount = document.getElementById('updatesFeedCount');
+  if (updatesList) {
+    fetch('data/updates.json')
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to load updates');
+        return res.json();
+      })
+      .then(items => {
+        if (!Array.isArray(items) || items.length === 0) {
+          updatesList.innerHTML = '<li class="updates-feed__empty">No tracked updates yet.</li>';
+          return;
+        }
+        items.sort((a, b) => new Date(b.date) - new Date(a.date));
+        updatesList.innerHTML = '';
+        items.forEach(item => {
+          const li = document.createElement('li');
+          const dateObj = new Date(item.date);
+          const dateLabel = isNaN(dateObj) ? item.date : dateObj.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+          li.innerHTML =
+            '<span class="updates-feed__date">' + dateLabel + '</span>' +
+            (item.tag ? '<span class="updates-feed__tag">' + item.tag + '</span>' : '') +
+            '<strong class="updates-feed__title">' + item.title + '</strong>' +
+            '<p class="updates-feed__summary">' + item.summary + '</p>' +
+            (item.source ? '<a class="updates-feed__link" href="' + item.source + '" target="_blank" rel="noopener">Source &#8599;</a>' : '');
+          updatesList.appendChild(li);
+        });
+        if (updatesCount) updatesCount.textContent = '(' + items.length + ')';
+      })
+      .catch(() => {
+        updatesList.innerHTML = '<li class="updates-feed__empty">Updates feed unavailable right now.</li>';
+      });
+  }
+
   // Interactive Architecture Flows
   // Reuses the exact Input/Agent/Action diagram markup already built for
   // each agent card (cloned, not rebuilt), so every color, label and bullet
