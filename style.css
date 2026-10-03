@@ -508,7 +508,38 @@ a.btn.btn--contact:hover { background: var(--blue); color: #fff; }
 
 .section { padding: 4rem 0; }
 @media (min-width: 1024px) { .section { padding: 5.5rem 0; } }
-.section--ink { background: var(--navy); color: #C9D5F0; }
+.section--ink {
+  background: var(--navy);
+  color: #C9D5F0;
+  position: relative;
+  overflow: hidden;
+}
+.section--ink::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image:
+    linear-gradient(#BED2EF1C 1px, transparent 1px),
+    linear-gradient(90deg, #BED2EF1C 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 0%, transparent 75%);
+  mask-image: radial-gradient(ellipse at center, #000 0%, transparent 75%);
+  z-index: 0;
+  pointer-events: none;
+}
+.section--ink::after {
+  content: "";
+  position: absolute;
+  width: 260px; height: 260px;
+  border-radius: 999px;
+  background: #4F7CFF22;
+  filter: blur(70px);
+  top: -60px; right: 8%;
+  z-index: 0;
+  pointer-events: none;
+}
+.section--ink > .shell { position: relative; z-index: 1; }
 
 .section-head { margin-bottom: 2rem; max-width: 62ch; }
 .section-head p { color: var(--muted); }
@@ -1631,6 +1662,12 @@ a.btn.btn--contact:hover { background: var(--blue); color: #fff; }
     linear-gradient(90deg, #BED2EF1C 1px, transparent 1px);
   background-size: 40px 40px;
   z-index: 0;
+}
+.hero-visual__layer {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.2s ease-out;
+  will-change: transform;
 }
 .hero-glow {
   position: absolute;
