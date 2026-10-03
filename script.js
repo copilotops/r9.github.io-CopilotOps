@@ -108,6 +108,93 @@
     });
   }
 
+  // Copilot Modes Explorer (Home / Code / Autopilot / Today)
+  // Content here is the same copy already written for this section —
+  // restructured into tabs, not reworded.
+  const modesRoot = document.querySelector('.modes');
+  if (modesRoot) {
+    const MODES = [
+      {
+        icon: '\u2302',
+        meta: 'HOME \u00b7 UNIFIED STARTING POINT',
+        title: 'The front door',
+        desc: 'Brings Chat and Cowork into a single starting point, with Word, Excel, and PowerPoint built directly into Copilot. Rolling out through the Microsoft Frontier program in the coming weeks.',
+        checks: [
+          'Chat and Cowork merged into one starting point',
+          'Word, Excel, and PowerPoint built directly in',
+          'Rolling out via Microsoft Frontier in the coming weeks'
+        ]
+      },
+      {
+        icon: '</>',
+        meta: 'CODE \u00b7 NATURAL-LANGUAGE APPS',
+        title: 'Build inside your tenant',
+        desc: 'Lets teams describe a small app in plain language and host it inside their own tenant, built on the same underlying technology as GitHub Copilot. A preview is promised later this year for Microsoft 365 Premium and Pro subscribers.',
+        checks: [
+          'Describe a small app in plain language',
+          'Hosted inside your own tenant',
+          'Built on the same technology as GitHub Copilot',
+          'Preview promised later this year for M365 Premium and Pro'
+        ]
+      },
+      {
+        icon: '\u26A1',
+        meta: 'AUTOPILOT \u00b7 PERSISTENT AGENT',
+        title: 'The persistent operator',
+        desc: 'A persistent, proactive agent \u2014 previously called Scout \u2014 that keeps working toward an objective without a new prompt for every step, and can pick a project back up days later. Entered private preview at the end of September 2026.',
+        checks: [
+          'Previously called Scout',
+          'Keeps working without a new prompt for every step',
+          'Can pick a project back up days later',
+          'Entered private preview end of September 2026'
+        ]
+      },
+      {
+        icon: '\u25C9',
+        meta: 'TODAY \u00b7 PROACTIVE COMMAND CENTER',
+        title: 'What needs attention',
+        desc: 'A proactive command center surfacing what needs attention across mail, calendar, Teams threads, meetings, and tasks. Enters private preview in October 2026, later coming to Outlook and Teams.',
+        checks: [
+          'Surfaces what needs attention across mail and calendar',
+          'Covers Teams threads, meetings, and tasks',
+          'Enters private preview in October 2026',
+          'Later coming to Outlook and Teams'
+        ]
+      }
+    ];
+
+    const modeTabs = modesRoot.querySelectorAll('.modes__tab');
+    const panel = modesRoot.querySelector('.modes__panel');
+    const panelIcon = panel.querySelector('.modes__icon');
+    const panelMeta = panel.querySelector('.modes__meta');
+    const panelTitle = panel.querySelector('.modes__title');
+    const panelDesc = panel.querySelector('.modes__desc');
+    const panelChecks = panel.querySelector('.modes__checks');
+
+    function renderMode(i) {
+      const m = MODES[i];
+      panelIcon.textContent = m.icon;
+      panelMeta.textContent = m.meta;
+      panelTitle.textContent = m.title;
+      panelDesc.textContent = m.desc;
+      panelChecks.innerHTML = '';
+      m.checks.forEach(text => {
+        const li = document.createElement('li');
+        li.textContent = text;
+        panelChecks.appendChild(li);
+      });
+    }
+
+    modeTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        modeTabs.forEach(t => { t.classList.remove('is-active'); t.setAttribute('aria-selected', 'false'); });
+        tab.classList.add('is-active');
+        tab.setAttribute('aria-selected', 'true');
+        renderMode(Number(tab.dataset.mode));
+      });
+    });
+  }
+
   // Interactive Architecture Flows
   // Reuses the exact Input/Agent/Action diagram markup already built for
   // each agent card (cloned, not rebuilt), so every color, label and bullet
