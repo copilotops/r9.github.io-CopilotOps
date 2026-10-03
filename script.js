@@ -351,6 +351,91 @@
       summaryOutput.textContent = text;
     }
 
+    // ---- Copilot Credits / FinOps calculator ----
+    const creditUsersInput = document.getElementById('bcbCreditUsers');
+    const creditTasksInput = document.getElementById('bcbCreditTasks');
+    const creditPerTaskInput = document.getElementById('bcbCreditPerTask');
+    const creditUsersValue = document.getElementById('bcbCreditUsersValue');
+    const creditTasksValue = document.getElementById('bcbCreditTasksValue');
+    const creditPerTaskValue = document.getElementById('bcbCreditPerTaskValue');
+    const creditMonthlyOut = document.getElementById('bcbCreditMonthly');
+    const creditSpendOut = document.getElementById('bcbCreditSpend');
+    const creditMultipleOut = document.getElementById('bcbCreditMultiple');
+
+    const CREDIT_COST_PER_UNIT = 0.01; // derived from Microsoft's published example: 20,000 credits ≈ $200
+    const FLAT_SEAT_COST = 30;
+    const WORKDAYS_PER_MONTH = 20;
+
+    function updateCreditCalculator() {
+      const users = Number(creditUsersInput.value);
+      const tasksPerDay = Number(creditTasksInput.value);
+      const creditsPerTask = Number(creditPerTaskInput.value);
+
+      creditUsersValue.textContent = users;
+      creditTasksValue.textContent = tasksPerDay;
+      creditPerTaskValue.textContent = creditsPerTask;
+
+      const monthlyCreditsPerUser = tasksPerDay * creditsPerTask * WORKDAYS_PER_MONTH;
+      const totalMonthlyCredits = monthlyCreditsPerUser * users;
+      const monthlySpend = totalMonthlyCredits * CREDIT_COST_PER_UNIT;
+      const spendPerUser = monthlyCreditsPerUser * CREDIT_COST_PER_UNIT;
+      const multiple = spendPerUser / FLAT_SEAT_COST;
+
+      creditMonthlyOut.textContent = formatNumber(totalMonthlyCredits);
+      creditSpendOut.textContent = formatCurrency(monthlySpend);
+      creditMultipleOut.textContent = multiple >= 1
+        ? multiple.toFixed(1) + '\u00d7 per user'
+        : 'Within seat cost';
+    }
+
+    if (creditUsersInput && creditTasksInput && creditPerTaskInput) {
+      [creditUsersInput, creditTasksInput, creditPerTaskInput].forEach(el => {
+        el.addEventListener('input', updateCreditCalculator);
+      });
+      updateCreditCalculator();
+    }
+
+    // ---- Copilot Credits readiness checklist (persisted separately) ----
+    const CREDITS_STORAGE_KEY = 'copilotops-bcb-credits';
+    const creditsChecklistItems = bcbRoot.querySelectorAll('#bcbCreditsChecklist input[type="checkbox"]');
+    const creditsProgressFill = document.getElementById('bcbCreditsProgressFill');
+    const creditsProgressLabel = document.getElementById('bcbCreditsProgressLabel');
+
+    function loadCreditsState() {
+      try {
+        const raw = localStorage.getItem(CREDITS_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+    function saveCreditsState(state) {
+      try {
+        localStorage.setItem(CREDITS_STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        // ignore storage failures
+      }
+    }
+    function updateCreditsProgress() {
+      const total = creditsChecklistItems.length;
+      const checked = Array.from(creditsChecklistItems).filter(c => c.checked).length;
+      const pct = total ? Math.round((checked / total) * 100) : 0;
+      if (creditsProgressFill) creditsProgressFill.style.width = pct + '%';
+      if (creditsProgressLabel) creditsProgressLabel.textContent = checked + ' of ' + total;
+    }
+
+    const savedCreditsState = loadCreditsState();
+    creditsChecklistItems.forEach(cb => {
+      if (savedCreditsState[cb.dataset.item]) cb.checked = true;
+      cb.addEventListener('change', () => {
+        const state = loadCreditsState();
+        state[cb.dataset.item] = cb.checked;
+        saveCreditsState(state);
+        updateCreditsProgress();
+      });
+    });
+    updateCreditsProgress();
+
     // ---- Summary actions ----
     const copyBtn = document.getElementById('bcbCopyBtn');
     const downloadBtn = document.getElementById('bcbDownloadBtn');
