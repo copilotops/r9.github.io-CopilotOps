@@ -6,13 +6,14 @@
   const root = document.documentElement;
   const THEME_KEY = 'copilotops-theme';
 
+  // Dark is the default theme now. A visitor's explicit choice (light or
+  // dark) is always remembered and respected; only a first-ever visit with
+  // no saved preference falls back to dark.
   try {
     const savedTheme = localStorage.getItem(THEME_KEY);
-    if (savedTheme === 'dark' || savedTheme === 'light') {
-      root.setAttribute('data-theme', savedTheme);
-    }
+    root.setAttribute('data-theme', (savedTheme === 'light') ? 'light' : 'dark');
   } catch (e) {
-    // localStorage unavailable (private browsing, etc.) — OS preference via CSS still applies
+    root.setAttribute('data-theme', 'dark');
   }
 
   if (toggleBtn) {
@@ -192,6 +193,24 @@
         tab.setAttribute('aria-selected', 'true');
         renderMode(Number(tab.dataset.mode));
       });
+    });
+  }
+
+  // Hero orbital visual — subtle mouse-parallax on top of the existing
+  // ambient rotation/float animations (which stay on the child elements
+  // and are untouched; this only translates the whole layer).
+  const heroVisual = document.getElementById('heroVisual');
+  const heroVisualLayer = document.getElementById('heroVisualLayer');
+  if (heroVisual && heroVisualLayer && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    const MAX_SHIFT = 14; // px
+    heroVisual.addEventListener('mousemove', (e) => {
+      const rect = heroVisual.getBoundingClientRect();
+      const relX = (e.clientX - rect.left) / rect.width - 0.5;
+      const relY = (e.clientY - rect.top) / rect.height - 0.5;
+      heroVisualLayer.style.transform = 'translate(' + (relX * MAX_SHIFT * -1) + 'px, ' + (relY * MAX_SHIFT * -1) + 'px)';
+    });
+    heroVisual.addEventListener('mouseleave', () => {
+      heroVisualLayer.style.transform = 'translate(0, 0)';
     });
   }
 
