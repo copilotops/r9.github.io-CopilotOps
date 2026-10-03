@@ -407,6 +407,7 @@
           <button class="bcb-tab" type="button" role="tab" aria-selected="false" aria-controls="bcb-comparison" data-tab="comparison">Comparison Matrix</button>
           <button class="bcb-tab" type="button" role="tab" aria-selected="false" aria-controls="bcb-readiness" data-tab="readiness">Readiness Checklist</button>
           <button class="bcb-tab" type="button" role="tab" aria-selected="false" aria-controls="bcb-summary" data-tab="summary">Executive Summary</button>
+          <button class="bcb-tab" type="button" role="tab" aria-selected="false" aria-controls="bcb-credits" data-tab="credits">Copilot Credits</button>
         </div>
 
         <!-- ROI Calculator -->
@@ -549,6 +550,89 @@
             <button class="btn btn--ghost" type="button" id="bcbDownloadBtn">Download as Markdown</button>
             <button class="btn btn--ghost" type="button" id="bcbPrintBtn">Print / Save as PDF</button>
           </div>
+        </div>
+
+        <!-- Copilot Credits / FinOps for AI -->
+        <div class="bcb-panel" id="bcb-credits" role="tabpanel" hidden>
+          <p class="bcb-summary-lead">On 25 September 2026, Microsoft split Copilot pricing into two tracks: everyday AI stays on the flat per-user license, while Cowork, Code, Autopilot, and frontier models run on usage-based Copilot Credits that stay off until a tenant admin configures a spending policy. Model your exposure before you switch it on.</p>
+
+          <div class="bcb-calc">
+            <div class="bcb-calc__inputs">
+              <div class="bcb-field">
+                <label for="bcbCreditUsers">Users on Advanced AI workflows <span class="bcb-field__value" id="bcbCreditUsersValue">25</span></label>
+                <input type="range" id="bcbCreditUsers" min="1" max="500" value="25" step="1">
+              </div>
+              <div class="bcb-field">
+                <label for="bcbCreditTasks">Advanced tasks per user per day <span class="bcb-field__value" id="bcbCreditTasksValue">2</span></label>
+                <input type="range" id="bcbCreditTasks" min="1" max="10" value="2" step="1">
+              </div>
+              <div class="bcb-field">
+                <label for="bcbCreditPerTask">Credits per task <span class="bcb-field__value" id="bcbCreditPerTaskValue">500</span></label>
+                <input type="range" id="bcbCreditPerTask" min="100" max="1000" value="500" step="50">
+              </div>
+              <p class="bcb-assumption">Illustrative only, modeled on Microsoft's own published example (two medium Cowork tasks/day at 500 credits each ≈ $200/user/month pay-as-you-go). Confirm actual credit pricing and any negotiated rate in your Microsoft 365 admin center before budgeting.</p>
+            </div>
+
+            <div class="bcb-calc__outputs">
+              <div class="bcb-stat">
+                <dt>Estimated monthly credits</dt>
+                <dd id="bcbCreditMonthly">0</dd>
+              </div>
+              <div class="bcb-stat">
+                <dt>Estimated monthly UBB spend</dt>
+                <dd id="bcbCreditSpend">$0</dd>
+              </div>
+              <div class="bcb-stat">
+                <dt>Vs. flat $30/seat license</dt>
+                <dd id="bcbCreditMultiple">—</dd>
+              </div>
+            </div>
+          </div>
+
+          <div class="bcb-progress" style="margin-top: 2rem;">
+            <div class="bcb-progress__bar"><span id="bcbCreditsProgressFill" style="width:0%"></span></div>
+            <p><strong id="bcbCreditsProgressLabel">0 of 6</strong> FinOps for AI controls confirmed</p>
+          </div>
+          <ul class="bcb-checklist" id="bcbCreditsChecklist">
+            <li>
+              <label>
+                <input type="checkbox" data-item="spending-policy">
+                <span><strong>Spending policy configured</strong> — usage-based billing stays off in your tenant until this is set.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="model-access">
+                <span><strong>Model family access restricted</strong> — control which groups can reach frontier models like Fable and Astra.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="usage-visibility">
+                <span><strong>Usage visibility enabled</strong> — admins and end users can see credits used, remaining, and approaching limits.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="approval-workflow">
+                <span><strong>Approval workflow for credit requests</strong> — overage requests route through an existing approval chain, not ad hoc.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="studio-cost">
+                <span><strong>Copilot Studio agent costs tracked</strong> — cost management expands to Studio-built agents from October 2026.</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" data-item="spend-review">
+                <span><strong>Monthly spend review scheduled</strong> — a standing owner checks credit consumption against the business case.</span>
+              </label>
+            </li>
+          </ul>
+
+          <p class="bcb-selected"><a href="https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/" target="_blank" rel="noopener">Read Microsoft's announcement &#8599;</a></p>
         </div>
       </div>
     </div>
