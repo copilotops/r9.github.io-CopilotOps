@@ -1606,3 +1606,125 @@ a.btn.btn--contact:hover { background: var(--blue); color: #fff; }
 @media (min-width: 760px) {
   .modes__panel { padding: 2.5rem; }
 }
+
+/* ============ Hero Orbital Visual ============ */
+/* Deliberately fixed-dark (independent of the light/dark toggle), same
+   convention as the Capabilities/Flows/Modes sections elsewhere on this
+   page — a dark glass panel reads as an intentional accent against the
+   light hero, not a theme bug. Node labels preview real sections further
+   down the page (Modes Explorer, Copilot Credits). */
+
+.hero-visual {
+  position: relative;
+  min-height: 460px;
+  border-radius: 24px;
+  background: #0D1527;
+  overflow: hidden;
+  isolation: isolate;
+}
+.hero-visual__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(#BED2EF1C 1px, transparent 1px),
+    linear-gradient(90deg, #BED2EF1C 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 0;
+}
+.hero-glow {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(60px);
+  z-index: 0;
+}
+.hero-glow-one { width: 220px; height: 220px; top: 10%; right: 12%; background: #4F7CFF33; }
+.hero-glow-two { width: 160px; height: 160px; bottom: 14%; left: 20%; background: #46C8BA26; }
+
+.orbital {
+  position: absolute;
+  border: 1px solid #A9C7FF2E;
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+.orbital-a { width: 72%; height: 86%; animation: orbit-spin 24s linear infinite; }
+.orbital-b { width: 58%; height: 68%; border-color: #46C8BA29; animation: orbit-spin-reverse 18s linear infinite; }
+.orbital-c { width: 42%; height: 46%; border-color: #7C3AED33; animation: orbit-spin-tight 13s linear infinite; }
+
+@keyframes orbit-spin { 0% { transform: translate(-50%, -50%) rotate(-26deg); } to { transform: translate(-50%, -50%) rotate(334deg); } }
+@keyframes orbit-spin-reverse { 0% { transform: translate(-50%, -50%) rotate(39deg); } to { transform: translate(-50%, -50%) rotate(-321deg); } }
+@keyframes orbit-spin-tight { 0% { transform: translate(-50%, -50%) rotate(-68deg); } to { transform: translate(-50%, -50%) rotate(292deg); } }
+@keyframes core-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 15px #4F7CFF0F, 0 0 70px #4F7CFF57; }
+  50% { transform: translate(-50%, -50%) scale(1.04); box-shadow: 0 0 0 22px #4F7CFF0A, 0 0 92px #4F7CFF85; }
+}
+@keyframes node-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+
+.hero-node-core {
+  position: absolute;
+  top: 44%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 108px; height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(circle at 35% 25%, #6092FF7A, #18284DD9 64%);
+  border: 1px solid #A9C7FF73;
+  border-radius: 50%;
+  color: #fff;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  z-index: 3;
+  animation: core-breathe 4s ease-in-out infinite;
+}
+
+.hero-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 10px 13px;
+  background: #162442A8;
+  border: 1px solid #BED2EF33;
+  border-radius: 14px;
+  color: #fff;
+  font-size: var(--step--2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.3);
+  z-index: 2;
+  animation: node-float 4.8s ease-in-out infinite;
+}
+.hero-node__icon { font-size: 1rem; line-height: 1; margin-bottom: 2px; }
+.hero-node__sub { color: #93A3CA; font-size: 0.65rem; }
+
+.hero-node-home { top: 18%; left: 4%; animation-delay: 0s; }
+.hero-node-code { top: 24%; right: 5%; animation-delay: 0.6s; }
+.hero-node-auto { bottom: 15%; right: 8%; animation-delay: 1.2s; }
+.hero-node-finops { top: 48%; left: 3%; color: #BDEBE4; border-color: #46C8BA52; animation-delay: 1.8s; }
+.hero-node-today { top: -3%; right: 2%; color: #FFE0CF; border-color: #FFAD8457; transform: scale(0.8); animation-delay: 2.4s; }
+
+.hero-signal {
+  position: absolute;
+  color: #8092AE;
+  background: #0D152773;
+  border: 1px solid #A9C7FF33;
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 0.6rem;
+  letter-spacing: 0.03em;
+  z-index: 2;
+}
+.hero-signal-a { bottom: 28%; left: 36%; }
+.hero-signal-b { top: 36%; right: 22%; }
+
+@media (max-width: 759px) {
+  .hero-visual { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbital, .hero-node-core, .hero-node { animation: none; }
+}
