@@ -1171,7 +1171,8 @@ a.btn.btn--contact:hover { background: var(--blue); color: #fff; }
   }
 
   /* Agent Card Diagrams — full width, evenly balanced stages */
-  .agent-card .arch__row {
+  .agent-card .arch__row,
+  .flow-diagram .arch__row {
     display: grid;
     grid-template-columns: 1fr 20px 1.1fr 20px 1fr;
     align-items: stretch;
@@ -1180,17 +1181,45 @@ a.btn.btn--contact:hover { background: var(--blue); color: #fff; }
   }
 
   .arch--hero .arch__conn, 
-  .agent-card .arch__conn { 
+  .agent-card .arch__conn,
+  .flow-diagram .arch__conn { 
     min-height: 0; 
   }
   .arch--hero .arch__conn span, 
-  .agent-card .arch__conn span {
+  .agent-card .arch__conn span,
+  .flow-diagram .arch__conn span {
     width: 100%;
     height: 2px;
     min-height: 0;
   }
   .arch--hero .arch__conn span::after, 
-  .agent-card .arch__conn span::after {
+  .agent-card .arch__conn span::after,
+  .flow-diagram .arch__conn span::after {
+    bottom: auto; top: 50%; left: auto; right: 0;
+    transform: translateY(-50%);
+    border: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 6px solid var(--navy-soft);
+  }
+}
+
+/* Interactive Flows diagram has its own wide column (not squeezed into a
+   3-per-row grid like agent cards), so it stays horizontal at every
+   desktop width instead of switching to the vertical fallback below. */
+@media (min-width: 1100px) {
+  .flow-diagram .arch__row {
+    grid-template-columns: 1fr 20px 1.1fr 20px 1fr;
+  }
+  .flow-diagram .arch__conn {
+    min-height: 0;
+  }
+  .flow-diagram .arch__conn span {
+    width: 100%;
+    height: 2px;
+    min-height: 0;
+  }
+  .flow-diagram .arch__conn span::after {
     bottom: auto; top: 50%; left: auto; right: 0;
     transform: translateY(-50%);
     border: 0;
@@ -1400,3 +1429,106 @@ a.btn.btn--contact:hover { background: var(--blue); color: #fff; }
   background: #4F7CFF;
 }
 .model-modal__cta:hover { background: #3d6af0; }
+
+/* ============ Interactive Architecture Flows ============ */
+/* The diagram itself reuses .arch / .arch__row / .arch__stage / .arch__conn
+   as-is (same classes the agent cards already use) — only the tab bar and
+   the detail panel are new, styled to match the existing dark-section
+   (.cap) palette used elsewhere on this page. */
+
+.flow-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+.flow-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  padding: 0.6rem 1.1rem;
+  color: #93A3CA;
+  font-size: var(--step--1);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.flow-tab:hover { border-color: rgba(255, 255, 255, 0.3); color: #fff; }
+.flow-tab.is-active {
+  background: rgba(79, 124, 255, 0.16);
+  border-color: #4F7CFF;
+  color: #fff;
+}
+.flow-tab__dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.flow-stage {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (min-width: 960px) {
+  .flow-stage { grid-template-columns: 1fr 320px; }
+}
+
+.flow-diagram .arch { display: block; margin: 0; }
+.flow-diagram .arch__stage {
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.flow-diagram .arch__stage:hover { transform: translateY(-2px); }
+.flow-diagram .arch__stage.is-selected { box-shadow: 0 0 0 2px #4F7CFF; }
+
+.flow-detail {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  position: sticky;
+  top: 1rem;
+}
+.flow-detail__eyebrow {
+  font-size: var(--step--2);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #4F7CFF;
+  margin: 0 0 0.5rem;
+}
+.flow-detail h3 { color: #fff; margin: 0 0 1rem; }
+.flow-detail__list {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+}
+.flow-detail__list li {
+  color: #cdd6ee;
+  font-size: var(--step--1);
+  padding: 0.5rem 0 0.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+.flow-detail__list li:last-child { border-bottom: 0; }
+.flow-detail__list li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 1rem;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #4F7CFF;
+}
+.flow-detail__stat {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+}
+.flow-detail__stat dt { font-size: var(--step--2); color: #93A3CA; margin-bottom: 0.3rem; }
+.flow-detail__stat dd { margin: 0; color: #fff; font-weight: 700; font-family: "Space Grotesk", sans-serif; }
