@@ -113,26 +113,43 @@
         <p>On 25 September 2026, Microsoft reorganized Copilot around four surfaces and introduced usage-based billing. Here's what changed, and where governance now matters most.</p>
       </header>
 
-      <div class="cap-list">
-        <article class="cap">
-          <h3>Home</h3>
-          <p>Brings Chat and Cowork into a single starting point, with Word, Excel, and PowerPoint built directly into Copilot. Rolling out through the Microsoft Frontier program in the coming weeks.</p>
-        </article>
-        <article class="cap">
-          <h3>Code</h3>
-          <p>Lets teams describe a small app in plain language and host it inside their own tenant, built on the same underlying technology as GitHub Copilot. A preview is promised later this year for Microsoft 365 Premium and Pro subscribers.</p>
-        </article>
-        <article class="cap">
-          <h3>Autopilot</h3>
-          <p>A persistent, proactive agent — previously called Scout — that keeps working toward an objective without a new prompt for every step, and can pick a project back up days later. Entered private preview at the end of September 2026.</p>
-        </article>
-        <article class="cap">
-          <h3>Today</h3>
-          <p>A proactive command center surfacing what needs attention across mail, calendar, Teams threads, meetings, and tasks. Enters private preview in October 2026, later coming to Outlook and Teams.</p>
-        </article>
-      </div>
+      <div class="modes">
+        <div class="modes__tabs" role="tablist" aria-label="Copilot surfaces">
+          <button class="modes__tab is-active" type="button" role="tab" aria-selected="true" data-mode="0">
+            <span class="modes__tab-num">01</span>
+            <span class="modes__tab-icon" aria-hidden="true">&#8962;</span>
+            <span>Home</span>
+          </button>
+          <button class="modes__tab" type="button" role="tab" aria-selected="false" data-mode="1">
+            <span class="modes__tab-num">02</span>
+            <span class="modes__tab-icon" aria-hidden="true">&lt;/&gt;</span>
+            <span>Code</span>
+          </button>
+          <button class="modes__tab" type="button" role="tab" aria-selected="false" data-mode="2">
+            <span class="modes__tab-num">03</span>
+            <span class="modes__tab-icon" aria-hidden="true">&#9889;</span>
+            <span>Autopilot</span>
+          </button>
+          <button class="modes__tab" type="button" role="tab" aria-selected="false" data-mode="3">
+            <span class="modes__tab-num">04</span>
+            <span class="modes__tab-icon" aria-hidden="true">&#9673;</span>
+            <span>Today</span>
+          </button>
+        </div>
 
-      <p class="bcb-selected"><a href="https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/" target="_blank" rel="noopener">Read Microsoft's announcement &#8599;</a></p>
+        <div class="modes__panel">
+          <div class="modes__icon" aria-hidden="true">&#8962;</div>
+          <p class="modes__meta">HOME &middot; UNIFIED STARTING POINT</p>
+          <h3 class="modes__title">The front door</h3>
+          <p class="modes__desc">Brings Chat and Cowork into a single starting point, with Word, Excel, and PowerPoint built directly into Copilot. Rolling out through the Microsoft Frontier program in the coming weeks.</p>
+          <ul class="modes__checks">
+            <li>Chat and Cowork merged into one starting point</li>
+            <li>Word, Excel, and PowerPoint built directly in</li>
+            <li>Rolling out via Microsoft Frontier in the coming weeks</li>
+          </ul>
+          <p class="bcb-selected"><a href="https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/" target="_blank" rel="noopener">Read Microsoft's announcement &#8599;</a></p>
+        </div>
+      </div>
     </div>
   </section>
 
