@@ -108,6 +108,101 @@
     });
   }
 
+  // Interactive Architecture Flows
+  // Reuses the exact Input/Agent/Action diagram markup already built for
+  // each agent card (cloned, not rebuilt), so every color, label and bullet
+  // stays in sync with the single source of truth in the Agents section.
+  const flowTabsEl = document.getElementById('flowTabs');
+  const flowDiagramEl = document.getElementById('flowDiagram');
+  const flowDetailEl = document.getElementById('flowDetail');
+  if (flowTabsEl && flowDiagramEl && flowDetailEl) {
+    const sourceCards = document.querySelectorAll('#agents .agent-card');
+    const flowDetailEyebrow = document.getElementById('flowDetailEyebrow');
+    const flowDetailTitle = document.getElementById('flowDetailTitle');
+    const flowDetailList = document.getElementById('flowDetailList');
+    const flowDetailStat = document.getElementById('flowDetailStat');
+
+    const STAGE_LABELS = {
+      'stage--source': 'Input',
+      'stage--agent': 'Agent',
+      'stage--action': 'Action'
+    };
+
+    function showStageDetail(stageEl, card) {
+      flowDiagramEl.querySelectorAll('.arch__stage').forEach(s => s.classList.remove('is-selected'));
+      stageEl.classList.add('is-selected');
+
+      const stageClass = Object.keys(STAGE_LABELS).find(c => stageEl.classList.contains(c));
+      const label = STAGE_LABELS[stageClass] || 'Stage';
+      const items = Array.from(stageEl.querySelectorAll('li')).map(li => li.textContent);
+      const meta = card.querySelector('.agent-card__meta');
+
+      flowDetailEyebrow.textContent = label;
+      flowDetailTitle.textContent = card.querySelector('h3').textContent;
+      flowDetailList.innerHTML = '';
+      items.forEach(text => {
+        const li = document.createElement('li');
+        li.textContent = text;
+        flowDetailList.appendChild(li);
+      });
+      flowDetailStat.textContent = meta ? meta.textContent : '';
+    }
+
+    function renderFlow(card) {
+      const archRow = card.querySelector('.arch__row');
+      if (!archRow) return;
+
+      flowDiagramEl.innerHTML = '';
+      const figure = document.createElement('figure');
+      figure.className = 'arch';
+      const clonedRow = archRow.cloneNode(true);
+      figure.appendChild(clonedRow);
+      flowDiagramEl.appendChild(figure);
+
+      const stages = clonedRow.querySelectorAll('.arch__stage');
+      stages.forEach(stageEl => {
+        stageEl.addEventListener('click', () => showStageDetail(stageEl, card));
+      });
+
+      if (stages.length) showStageDetail(stages[0], card);
+    }
+
+    function renderTabs() {
+      flowTabsEl.innerHTML = '';
+      sourceCards.forEach((card, i) => {
+        const tagEl = card.querySelector('.agent-card__tag');
+        const titleEl = card.querySelector('h3');
+        const tab = document.createElement('button');
+        tab.type = 'button';
+        tab.className = 'flow-tab' + (i === 0 ? ' is-active' : '');
+        tab.setAttribute('role', 'tab');
+        tab.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+
+        const dot = document.createElement('span');
+        dot.className = 'flow-tab__dot';
+        if (tagEl) dot.style.background = getComputedStyle(tagEl).color;
+        tab.appendChild(dot);
+        tab.appendChild(document.createTextNode(titleEl ? titleEl.textContent : 'Agent'));
+
+        tab.addEventListener('click', () => {
+          flowTabsEl.querySelectorAll('.flow-tab').forEach(t => {
+            t.classList.remove('is-active');
+            t.setAttribute('aria-selected', 'false');
+          });
+          tab.classList.add('is-active');
+          tab.setAttribute('aria-selected', 'true');
+          renderFlow(card);
+        });
+
+        flowTabsEl.appendChild(tab);
+      });
+
+      if (sourceCards.length) renderFlow(sourceCards[0]);
+    }
+
+    renderTabs();
+  }
+
   // Agent Category Filters
   const filterButtons = document.querySelectorAll('.agent-filter');
   const agentCards = document.querySelectorAll('.agent-card');
