@@ -9,6 +9,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script>
+  // Runs before first paint to avoid a flash of the wrong theme. Dark is
+  // the default; an explicit saved choice of "light" is still respected.
+  (function() {
+    try {
+      var saved = localStorage.getItem('copilotops-theme');
+      document.documentElement.setAttribute('data-theme', saved === 'light' ? 'light' : 'dark');
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  })();
+</script>
 </head>
 <body>
 
@@ -46,6 +58,7 @@
           </details>
         </li>
         <li><a href="#whats-new">What's New</a></li>
+        <li><a href="#flows">Architecture Flows</a></li>
         <li><a href="#capabilities">Capabilities</a></li>
         <li><a href="#business-case">Business Case Builder</a></li>
         <li><a href="#delivery">How we deliver</a></li>
@@ -70,44 +83,46 @@
         </div>
       </div>
 
-      <div class="hero-visual" aria-hidden="true">
+      <div class="hero-visual" id="heroVisual" aria-hidden="true">
         <div class="hero-visual__grid"></div>
-        <div class="hero-glow hero-glow-one"></div>
-        <div class="hero-glow hero-glow-two"></div>
-        <div class="orbital orbital-a"></div>
-        <div class="orbital orbital-b"></div>
-        <div class="orbital orbital-c"></div>
+        <div class="hero-visual__layer" id="heroVisualLayer">
+          <div class="hero-glow hero-glow-one"></div>
+          <div class="hero-glow hero-glow-two"></div>
+          <div class="orbital orbital-a"></div>
+          <div class="orbital orbital-b"></div>
+          <div class="orbital orbital-c"></div>
 
-        <div class="hero-node-core">CopilotOps</div>
+          <div class="hero-node-core">CopilotOps</div>
 
-        <div class="hero-node hero-node-home">
-          <span class="hero-node__icon">&#8962;</span>
-          <strong>Home</strong>
-          <span class="hero-node__sub">Start here</span>
-        </div>
-        <div class="hero-node hero-node-code">
-          <span class="hero-node__icon">&lt;/&gt;</span>
-          <strong>Code</strong>
-          <span class="hero-node__sub">Build it</span>
-        </div>
-        <div class="hero-node hero-node-auto">
-          <span class="hero-node__icon">&#9889;</span>
-          <strong>Autopilot</strong>
-          <span class="hero-node__sub">Keep going</span>
-        </div>
-        <div class="hero-node hero-node-finops">
-          <span class="hero-node__icon">&#9636;</span>
-          <strong>FinOps AI</strong>
-          <span class="hero-node__sub">Control spend</span>
-        </div>
-        <div class="hero-node hero-node-today">
-          <span class="hero-node__icon">&#9673;</span>
-          <strong>Today</strong>
-          <span class="hero-node__sub">Coming soon</span>
-        </div>
+          <div class="hero-node hero-node-home">
+            <span class="hero-node__icon">&#8962;</span>
+            <strong>Home</strong>
+            <span class="hero-node__sub">Start here</span>
+          </div>
+          <div class="hero-node hero-node-code">
+            <span class="hero-node__icon">&lt;/&gt;</span>
+            <strong>Code</strong>
+            <span class="hero-node__sub">Build it</span>
+          </div>
+          <div class="hero-node hero-node-auto">
+            <span class="hero-node__icon">&#9889;</span>
+            <strong>Autopilot</strong>
+            <span class="hero-node__sub">Keep going</span>
+          </div>
+          <div class="hero-node hero-node-finops">
+            <span class="hero-node__icon">&#9636;</span>
+            <strong>FinOps AI</strong>
+            <span class="hero-node__sub">Control spend</span>
+          </div>
+          <div class="hero-node hero-node-today">
+            <span class="hero-node__icon">&#9673;</span>
+            <strong>Today</strong>
+            <span class="hero-node__sub">Coming soon</span>
+          </div>
 
-        <div class="hero-signal hero-signal-a">Human Review Loop</div>
-        <div class="hero-signal hero-signal-b">Trace Logging</div>
+          <div class="hero-signal hero-signal-a">Human Review Loop</div>
+          <div class="hero-signal hero-signal-b">Trace Logging</div>
+        </div>
       </div>
     </div>
   </section>
